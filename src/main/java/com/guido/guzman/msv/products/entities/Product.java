@@ -16,4 +16,6 @@ public class Product {
     private Double price;
     @Column(name = "created_at")
     private LocalDate createdAt;
+    @Transient
+    private int port;
 }
