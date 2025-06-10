@@ -1,11 +1,11 @@
 package com.guido.guzman.msv.products.controllers;
 
+import com.guido.guzman.msv.products.entities.Product;
 import com.guido.guzman.msv.products.services.IProductService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
 import java.util.concurrent.TimeUnit;
 
 @RestController
@@ -34,5 +34,30 @@ public class ProductController {
         return productService.findById(id)
                 .map(product -> ResponseEntity.ok(product))
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @PostMapping
+    public ResponseEntity<?> create(@RequestBody Product product) {
+        return ResponseEntity.status(201).body(productService.save(product));
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> delete(@PathVariable Long id) {
+        Optional<Product> product = productService.findById(id);
+        if (product.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        this.productService.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<?> update(@PathVariable Long id, @RequestBody Product product) {
+        Optional<Product> existingProduct = productService.findById(id);
+        if (existingProduct.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        product.setId(id);
+        return ResponseEntity.ok(productService.save(product));
     }
 }
