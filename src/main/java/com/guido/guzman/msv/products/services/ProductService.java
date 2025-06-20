@@ -1,6 +1,6 @@
 package com.guido.guzman.msv.products.services;
 
-import com.guido.guzman.msv.products.entities.Product;
+import com.guidio.guzman.libs.msv.commons.entities.Product;
 import com.guido.guzman.msv.products.repositories.IProductRepository;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
